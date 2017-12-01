@@ -12,3 +12,10 @@ https://nodejs.org/en/
 npm install # Install the dependencies
 npm run dev # Start the server on localhost:3000
 ```
+
+#### Deployment
+
+```bash
+npm run deploy # Will build the assets and deploy to gh-pages
+```
+The app will be available here: eraleis.github.io/ld40
