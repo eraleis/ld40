@@ -28,4 +28,16 @@ export default class extends Phaser.Sprite {
       player.state.current_jump = 0
     }
   }
+
+  moveLeft() {
+    this.body.velocity.x = 200
+  }
+
+  moveRight() {
+    this.body.velocity.x = -200
+  }
+
+  stopMove() {
+    this.body.velocity.x = 0
+  }
 }
