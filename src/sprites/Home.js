@@ -6,9 +6,9 @@ export default class extends Phaser.Sprite {
     game.add.existing(this)
 
     this.anchor.setTo(0.5, 1)
-    this.scale.set(0.1)
+    this.scale.set(0.3)
 
-    this.props = { }
-    this.state = { }
+    this.props = {}
+    this.state = {}
   }
 }
