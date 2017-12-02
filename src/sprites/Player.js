@@ -6,13 +6,15 @@ export default class extends Phaser.Sprite {
     game.add.existing(this)
 
     this.anchor.setTo(0.5)
-    this.scale.set(0.4)
+    this.body.setSize(22, this.height, 22, 0)
 
     this.body.gravity.y = 2000
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
     this.state = { current_jump: 0, high: false }
+
+    this.animations.add('walk', [1, 2, 3, 4], 5, true)
   }
 
   static jump () {
@@ -31,15 +33,20 @@ export default class extends Phaser.Sprite {
   }
 
   moveLeft () {
-    this.body.velocity.x = 200
+    this.body.velocity.x = -200
+    this.scale.set(1, 1)
+    this.animations.play('walk')
   }
 
   moveRight () {
-    this.body.velocity.x = -200
+    this.body.velocity.x = 200
+    this.scale.set(-1, 1)
+    this.animations.play('walk')
   }
 
   stopMove () {
     this.body.velocity.x = 0
+    this.animations.stop('walk')
   }
 
   smokeWeed (weed) {
