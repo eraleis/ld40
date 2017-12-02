@@ -1,34 +1,55 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
+import Player from '../sprites/Player'
 
 export default class extends Phaser.State {
   init () {}
   preload () {}
 
   create () {
-    const bannerText = 'Phaser + ES6 + Webpack'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
+    let game = this.game
 
-    this.mushroom = new Mushroom({
+    game.physics.startSystem(Phaser.Physics.ARCADE)
+    game.physics.arcade.gravity.y = 500
+
+    this.player = new Player({
       game: this.game,
-      x: this.world.centerX,
+      x: 0,
       y: this.world.centerY,
       asset: 'mushroom'
     })
+    this.player.enableBody = true
 
-    this.game.add.existing(this.mushroom)
+    this.physicsBodyType = Phaser.Physics.ARCADE
+    game.physics.enable(this.player, Phaser.Physics.ARCADE)
+
+    this.player.body.collideWorldBounds = true
+    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
+    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
+    this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ])
+
+    game.add.existing(this.player)
+  }
+
+  update () {
+    if (this.rightKey.isDown) {
+      this.player.body.velocity.x = 200
+    } else if (this.leftKey.isDown) {
+      this.player.body.velocity.x = -200
+    } else {
+      this.player.body.velocity.x = 0
+    }
+
+    if (this.spaceKey.isDown && this.player.body.velocity.y === 0) {
+      this.player.body.velocity.y = -200
+    }
   }
 
   render () {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.mushroom, 32, 32)
+      this.game.debug.spriteInfo(this.player, 32, 32)
     }
   }
 }
