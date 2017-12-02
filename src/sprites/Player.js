@@ -15,7 +15,7 @@ export default class extends Phaser.Sprite {
     this.props = { max_jump: 2 }
     this.state = { current_jump: 0, high: false }
 
-    this.animations.add('walk', [1, 2, 3, 4], 5, true)
+    this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
 
   static jump () {

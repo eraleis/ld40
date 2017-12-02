@@ -13,6 +13,8 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
+    game.load.image("background", "assets/images/background.png");
+
     this.load.image('weed', 'assets/images/weed.png')
     this.load.image('home', 'assets/images/home.png')
     this.load.image('cop', 'assets/images/cop.png')
