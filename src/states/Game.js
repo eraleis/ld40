@@ -11,25 +11,25 @@ export default class extends Phaser.State {
     let game = this.game
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    game.world.enableBody = true;
+    game.world.enableBody = true
     this.worldGroup = GenerateMap(game)
 
     this.player = new Player({
       game: this.game,
-      x: 0,
+      x: 10,
       y: this.world.centerY,
-      asset: 'mushroom',
+      asset: 'mushroom'
     })
-    game.camera.follow(this.player);
+    game.camera.follow(this.player)
 
-    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT])
-    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(Player.jump, this.player);
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT ])
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(Player.jump, this.player)
     this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
   }
 
   update () {
-    game.physics.arcade.collide(this.player, this.worldGroup);
+    this.game.physics.arcade.collide(this.player, this.worldGroup)
 
     if (this.rightKey.isDown) {
       this.player.moveLeft()
@@ -40,13 +40,12 @@ export default class extends Phaser.State {
     }
 
     Player.resetJump(this.player)
-
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.player, 32, 32)
-      this.game.debug.cameraInfo(game.camera, 120, 120)
+      this.game.debug.cameraInfo(this.game.camera, 120, 120)
     }
   }
 }
