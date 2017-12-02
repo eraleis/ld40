@@ -62,6 +62,8 @@ export default class extends Phaser.State {
 
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ])
 
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(Player.jump, this.player);
+
     game.add.existing(this.player)
   }
 
@@ -75,9 +77,8 @@ export default class extends Phaser.State {
       this.player.body.velocity.x = 0
     }
 
-    if (this.spaceKey.isDown && this.player.body.velocity.y === 0) {
-      this.player.body.velocity.y = -500
-    }
+    Player.resetJump(this.player)
+
   }
 
   render () {
