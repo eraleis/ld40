@@ -39,7 +39,6 @@ export default class extends Phaser.State {
     let game = this.game
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
-
     game.world.enableBody = true;
     this.worldGroup = this.createWorld()
 
@@ -47,29 +46,15 @@ export default class extends Phaser.State {
       game: this.game,
       x: 0,
       y: this.world.centerY,
-      asset: 'mushroom'
+      asset: 'mushroom',
     })
-    this.player.scale.set(0.4)
-    this.player.enableBody = true
-
-    this.physicsBodyType = Phaser.Physics.ARCADE
-    game.physics.enable(this.player, Phaser.Physics.ARCADE)
-
-    this.player.body.collideWorldBounds = false
-    this.player.body.gravity.y = 2000
-    this.player.body.mass = 2
-    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-    this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 
     game.camera.follow(this.player);
-    game.camera.moving = true;
 
-    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ])
-
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT])
     game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(Player.jump, this.player);
-
-    game.add.existing(this.player)
+    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
+    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
   }
 
   update () {
