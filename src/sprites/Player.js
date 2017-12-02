@@ -12,32 +12,37 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0 }
+    this.state = { current_jump: 0, high: false }
   }
 
   static jump () {
-    if (this.state.current_jump >= this.props.max_jump)
+    if (this.state.current_jump >= this.props.max_jump) {
       return
+    }
 
     this.body.velocity.y = -500
     this.state.current_jump++
   }
 
-  static resetJump(player) {
+  static resetJump (player) {
     if (player.body.velocity.y === 0) {
       player.state.current_jump = 0
     }
   }
 
-  moveLeft() {
+  moveLeft () {
     this.body.velocity.x = 200
   }
 
-  moveRight() {
+  moveRight () {
     this.body.velocity.x = -200
   }
 
-  stopMove() {
+  stopMove () {
     this.body.velocity.x = 0
+  }
+
+  smokeWeed () {
+    this.state.high = true
   }
 }
