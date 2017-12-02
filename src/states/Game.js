@@ -7,8 +7,10 @@ export default class extends Phaser.State {
   preload () {}
 
   createWorld () {
+    let group = this.game.add.group()
     let map = [
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1]
     ]
@@ -20,20 +22,24 @@ export default class extends Phaser.State {
       for (var j = 0; j < map[i].length; j++) {
         if (map[i][j] === 1) {
           let block = this.game.add.sprite(pos.x, pos.y, 'block')
+          group.add(block)
           block.anchor.y = 1
+          block.body.immovable = true
         }
         pos.x += 32
       }
       pos.y -= 32
     }
+    return group
   }
 
   create () {
-    this.createWorld()
     let game = this.game
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    game.physics.arcade.gravity.y = 500
+
+    game.world.enableBody = true;
+    this.worldGroup = this.createWorld()
 
     this.player = new Player({
       game: this.game,
@@ -41,12 +47,15 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       asset: 'mushroom'
     })
+    this.player.scale.set(0.4)
     this.player.enableBody = true
 
     this.physicsBodyType = Phaser.Physics.ARCADE
     game.physics.enable(this.player, Phaser.Physics.ARCADE)
 
-    this.player.body.collideWorldBounds = true
+    this.player.body.collideWorldBounds = false
+    this.player.body.gravity.y = 2000
+    this.player.body.mass = 2
     this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
@@ -57,6 +66,7 @@ export default class extends Phaser.State {
   }
 
   update () {
+    game.physics.arcade.collide(this.player, this.worldGroup);
     if (this.rightKey.isDown) {
       this.player.body.velocity.x = 200
     } else if (this.leftKey.isDown) {
@@ -66,7 +76,7 @@ export default class extends Phaser.State {
     }
 
     if (this.spaceKey.isDown && this.player.body.velocity.y === 0) {
-      this.player.body.velocity.y = -200
+      this.player.body.velocity.y = -500
     }
   }
 
