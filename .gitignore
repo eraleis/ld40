@@ -7,3 +7,4 @@ plugins/
 *.log
 package-lock.json
 /index.html
+.DS_Store
