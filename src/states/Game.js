@@ -5,6 +5,7 @@ import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
 import Cop from '../sprites/Cop'
 import GenerateMap from '../services/GenerateMapService'
+import { WIDTH as MAP_WIDTH } from '../data/Map'
 
 const BLOCK_SIZE = 32
 
@@ -14,6 +15,9 @@ export default class extends Phaser.State {
 
   create () {
     let game = this.game
+
+    this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background');
+    this.background.fixedToCamera = true;
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
@@ -56,6 +60,11 @@ export default class extends Phaser.State {
   }
 
   update () {
+    if (this.game.camera.x !== 0 && this.player.body.velocity.x !== 0 && this.game.camera.x != MAP_WIDTH * 32 - this.game.width) {
+      let direction = (this.player.body.velocity.x > 0) ? -2 : 2
+      this.background.tilePosition.x += direction
+    }
+
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
     arcade.overlap(this.cop, this.worldGroup, _ => this.cop.reverse())
