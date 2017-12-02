@@ -19,9 +19,7 @@ export default class extends Phaser.Sprite {
   }
 
   static jump () {
-    if (this.state.current_jump >= this.props.max_jump) {
-      return
-    }
+    if (this.state.current_jump >= this.props.max_jump) { return }
 
     this.body.velocity.y = -500
     this.state.current_jump++
@@ -59,8 +57,6 @@ export default class extends Phaser.Sprite {
     if (this.state.high === true) {
       this.state.high = false
       return true
-    } else {
-      return false
-    }
+    } else { return false }
   }
 }
