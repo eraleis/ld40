@@ -96,7 +96,7 @@ export default class extends Phaser.State {
     arcade.overlap(
       this.player,
       this.cop,
-      _ => { console.log('foo') }
+      _ => { this.state.start('GameOver') }
     )
 
     if (this.rightKey.isDown) {
@@ -106,6 +106,8 @@ export default class extends Phaser.State {
     } else {
       this.player.stopMove()
     }
+
+    if (this.player.y > this.game.height) { this.state.start('GameOver') }
 
     Player.resetJump(this.player)
   }
