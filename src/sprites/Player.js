@@ -46,4 +46,13 @@ export default class extends Phaser.Sprite {
     this.state.high = true
     weed.kill()
   }
+
+  depositWeed (home) {
+    if (this.state.high === true) {
+      this.state.high = false
+      return true
+    } else {
+      return false
+    }
+  }
 }
