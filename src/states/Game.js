@@ -16,7 +16,7 @@ export default class extends Phaser.State {
 
     this.player = new Player({
       game: this.game,
-      x: 10,
+      x: 20,
       y: this.world.centerY,
       asset: 'mushroom'
     })
