@@ -42,7 +42,8 @@ export default class extends Phaser.Sprite {
     this.body.velocity.x = 0
   }
 
-  smokeWeed () {
+  smokeWeed (weed) {
     this.state.high = true
+    weed.kill()
   }
 }

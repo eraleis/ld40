@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Player from '../sprites/Player'
+import Weed from '../sprites/Weed'
 import GenerateMap from '../services/GenerateMapService'
 
 export default class extends Phaser.State {
@@ -20,6 +21,13 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       asset: 'mushroom'
     })
+
+    this.weed = new Weed({
+      game: this.game,
+      x: this.world.width - 20,
+      y: this.world.centerY,
+      asset: 'weed'
+    })
     game.camera.follow(this.player)
 
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT ])
@@ -29,7 +37,17 @@ export default class extends Phaser.State {
   }
 
   update () {
-    this.game.physics.arcade.collide(this.player, this.worldGroup)
+    let arcade = this.game.physics.arcade
+    arcade.collide(this.player, this.worldGroup)
+    arcade.collide(this.weed, this.worldGroup)
+
+    arcade.overlap(
+      this.player,
+      this.weed,
+      () => { this.player.smokeWeed(this.weed) },
+      null,
+      this.player
+    )
 
     if (this.rightKey.isDown) {
       this.player.moveLeft()
