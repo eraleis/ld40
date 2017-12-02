@@ -7,6 +7,7 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
     this.body.setSize(22, this.height, 22, 0)
+    this.scale.set(-1, 1)
 
     this.body.gravity.y = 2000
     this.body.mass = 2
