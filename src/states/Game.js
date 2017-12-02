@@ -29,7 +29,7 @@ export default class extends Phaser.State {
       game: this.game,
       x: 55,
       y: 0,
-      asset: 'mushroom'
+      asset: 'player'
     })
 
     this.weed = new Weed({
@@ -75,9 +75,9 @@ export default class extends Phaser.State {
     )
 
     if (this.rightKey.isDown) {
-      this.player.moveLeft()
-    } else if (this.leftKey.isDown) {
       this.player.moveRight()
+    } else if (this.leftKey.isDown) {
+      this.player.moveLeft()
     } else {
       this.player.stopMove()
     }
@@ -87,8 +87,14 @@ export default class extends Phaser.State {
 
   render () {
     if (__DEV__) {
+<<<<<<< HEAD
       // this.game.debug.spriteInfo(this.player, 32, 32)
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)
+=======
+      this.game.debug.spriteInfo(this.player, 32, 32)
+      this.game.debug.body(this.player);
+      this.game.debug.cameraInfo(this.game.camera, 120, 120)
+>>>>>>> Add player animation
     }
   }
 }
