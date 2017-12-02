@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
+import Cop from '../sprites/Cop'
 import GenerateMap from '../services/GenerateMapService'
 
 const BLOCK_SIZE = 32
@@ -23,6 +24,13 @@ export default class extends Phaser.State {
       x: 50,
       y: this.world.height - BLOCK_SIZE,
       asset: 'home'
+    })
+
+    this.cop = new Cop({
+      game: this.game,
+      x: 200,
+      y: this.world.height - BLOCK_SIZE,
+      asset: 'cop'
     })
 
     this.player = new Player({
@@ -50,6 +58,7 @@ export default class extends Phaser.State {
   update () {
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
+    arcade.overlap(this.cop, this.worldGroup, _ => this.cop.reverse())
 
     arcade.overlap(
       this.player,
@@ -72,6 +81,12 @@ export default class extends Phaser.State {
           banner.anchor.setTo(0.5)
         }
       }
+    )
+
+    arcade.overlap(
+      this.player,
+      this.cop,
+      _ => { console.log('foo') }
     )
 
     if (this.rightKey.isDown) {
