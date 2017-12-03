@@ -15,7 +15,7 @@ export default class extends Phaser.Sprite {
     this.props = {}
     this.state = {}
 
-    this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
+    this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 10, true)
     this.animations.play('walk')
   }
 
