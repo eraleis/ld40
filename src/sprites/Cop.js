@@ -7,12 +7,16 @@ export default class extends Phaser.Sprite {
     game.add.existing(this)
 
     this.anchor.setTo(0.5, 1)
-    this.scale.set(-0.3, 0.3)
+    this.body.setSize(22, this.height, 22, 0)
+    this.scale.set(-1, 1)
 
     this.body.velocity.x = 100
 
     this.props = {}
     this.state = {}
+
+    this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
+    this.animations.play('walk')
   }
 
   canMove () {
