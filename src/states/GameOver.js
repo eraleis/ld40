@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import ResetButton from '../sprites/Reset'
+import BackButton from '../sprites/Back'
 
 export default class extends Phaser.State {
   init () {
@@ -22,6 +23,13 @@ export default class extends Phaser.State {
   create () {
     this.gameOverTitle()
 
+    this.backButton = new BackButton({
+      game: this.game,
+      x: this.game.width / 2,
+      y: this.game.height / 3 + 300,
+      asset: 'back'
+    })
+
     this.resetButton = new ResetButton({
       game: this.game,
       x: this.game.width / 2,
@@ -30,6 +38,7 @@ export default class extends Phaser.State {
     })
 
     this.resetButton.events.onInputDown.add(ResetButton.onClick, this)
+    this.backButton.events.onInputDown.add(BackButton.onClick, this)
   }
 
   update () {}
