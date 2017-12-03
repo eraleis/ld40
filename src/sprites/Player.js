@@ -13,7 +13,7 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0, high: false }
+    this.state = { current_jump: 0, high: false, score: 0 }
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
@@ -29,6 +29,11 @@ export default class extends Phaser.Sprite {
     if (player.body.velocity.y === 0) {
       player.state.current_jump = 0
     }
+  }
+
+  pickUpCoin () {
+    this.state.score++
+    return this.state.score
   }
 
   moveLeft () {
