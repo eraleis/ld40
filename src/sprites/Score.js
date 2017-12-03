@@ -11,7 +11,7 @@ export default class extends Phaser.Text {
     this.font = 'Bangers'
     this.padding.set(10, 16)
     this.fontSize = 120
-    this.fill = '#000000'
+    this.fill = '#FFFFFF'
     this.smoothed = false
   }
 
