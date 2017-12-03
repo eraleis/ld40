@@ -43,6 +43,7 @@ export default class extends Phaser.State {
     game.load.audio('hit_sound', 'assets/audio/hit.wav');
     game.load.audio('magic_wand_sound', 'assets/audio/magic_wand.wav');
     game.load.audio('gameover_sound', 'assets/audio/gameover.wav');
+    game.load.audio('gamewin_sound', 'assets/audio/gamewin.wav');
     game.load.audio('background_sound', 'assets/audio/background.wav');
     game.load.audio('background_high_sound', 'assets/audio/background_high.mp3');
   }

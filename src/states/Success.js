@@ -8,6 +8,9 @@ export default class extends Phaser.State {
   }
 
   create () {
+    let gamewin_sound = game.add.audio('gamewin_sound')
+    gamewin_sound.play()
+
     let bannerText = 'YOU WIN !'
     let banner = this.add.text(this.game.width / 2, this.game.height / 2, bannerText)
     banner.font = 'Shrikhand'
