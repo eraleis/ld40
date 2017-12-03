@@ -20,6 +20,17 @@ export default class extends Phaser.State {
     }, this);
   }
 
+  leftArrow () {
+    this.arrow_left = this.game.add.sprite(this.world.width - 50, 50, 'arrow_left')
+    this.arrow_left.anchor.set(1, 0)
+    this.arrow_left.scale.setTo(0)
+    game.time.events.loop(100, _ => {
+      this.arrow_left.tint = Math.random() * 0xffffff;
+    }, this);
+
+    this.add.tween(this.arrow_left.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Back.Out, true, 1000)
+  }
+
   create () {
     let game = this.game
 
@@ -125,6 +136,7 @@ export default class extends Phaser.State {
 
     if (this.player.state.high === true) {
       if (!this.highStarted) {
+        this.leftArrow()
         this.setHighBackground()
         loadHighTextures(this.worldGroup)
         this.background_music.stop()
