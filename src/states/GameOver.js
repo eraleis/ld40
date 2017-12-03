@@ -23,7 +23,8 @@ export default class extends Phaser.State {
   create () {
     this.gameOverTitle()
 
-    game.add.audio('game_over_sound').play()
+    let gameover_sound = game.add.audio('gameover_sound')
+    gameover_sound.play()
 
     this.backButton = new BackButton({
       game: this.game,

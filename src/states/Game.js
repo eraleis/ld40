@@ -172,4 +172,9 @@ export default class extends Phaser.State {
   gameOver () {
     this.state.start('GameOver')
   }
+
+  shutdown () {
+    this.background_music_high.stop()
+    this.background_music.stop()
+  }
 }
