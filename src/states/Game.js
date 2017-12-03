@@ -165,9 +165,9 @@ export default class extends Phaser.State {
       // this.enemies.children.forEach((enemy) => {
       //   this.game.debug.body(enemy);
       // })
-      this.worldGroup.children.forEach((enemy) => {
-        this.game.debug.body(enemy);
-      })
+      // this.worldGroup.children.forEach((enemy) => {
+      //   this.game.debug.body(enemy);
+      // })
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)
     }
   }
