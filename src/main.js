@@ -7,6 +7,7 @@ import SplashState from './states/Splash'
 import GameState from './states/Game'
 import GameOver from './states/GameOver'
 import Menu from './states/Menu'
+import Success from './states/Success'
 
 import config from './config'
 
@@ -23,6 +24,7 @@ class Game extends Phaser.Game {
     this.state.add('Game', GameState, false)
     this.state.add('GameOver', GameOver, false)
     this.state.add('Menu', Menu, false)
+    this.state.add('Success', Success, false)
 
     this.state.start('Boot')
   }
