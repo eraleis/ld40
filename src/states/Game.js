@@ -70,7 +70,10 @@ export default class extends Phaser.State {
   }
 
   animateBackgroup () {
+    let old = this.game.camera.old_x
+    this.game.camera.old_x = this.game.camera.x
     if (this.game.camera.x !== 0 &&
+        old !== this.game.camera.x &&
         this.player.body.velocity.x !== 0 &&
         this.game.camera.x !== MAP_WIDTH * 32 - this.game.width) {
       this.game.background_sky.tilePosition.x += (this.player.body.velocity.x > 0) ? -2 : 2
