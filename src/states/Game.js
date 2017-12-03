@@ -16,8 +16,8 @@ export default class extends Phaser.State {
   create () {
     let game = this.game
 
-    this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background');
-    this.background.fixedToCamera = true;
+    this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background')
+    this.background.fixedToCamera = true
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
@@ -28,13 +28,6 @@ export default class extends Phaser.State {
       x: 50,
       y: this.world.height - BLOCK_SIZE,
       asset: 'home'
-    })
-
-    this.cop = new Cop({
-      game: this.game,
-      x: 200,
-      y: this.world.height - BLOCK_SIZE,
-      asset: 'cop'
     })
 
     this.player = new Player({
@@ -61,7 +54,7 @@ export default class extends Phaser.State {
   }
 
   update () {
-    if (this.game.camera.x !== 0 && this.player.body.velocity.x !== 0 && this.game.camera.x != MAP_WIDTH * 32 - this.game.width) {
+    if (this.game.camera.x !== 0 && this.player.body.velocity.x !== 0 && this.game.camera.x !== MAP_WIDTH * 32 - this.game.width) {
       let direction = (this.player.body.velocity.x > 0) ? -2 : 2
       this.background.tilePosition.x += direction
     }
@@ -76,22 +69,32 @@ export default class extends Phaser.State {
       _ => { this.player.smokeWeed(this.weed) }
     )
 
-    arcade.overlap(
-      this.player,
-      this.home,
-      _ => {
-        if (this.player.depositWeed(this.home) === true) {
-          let bannerText = 'LEVEL UP !'
-          let banner = this.add.text(this.game.width / 2, this.game.height / 2, bannerText)
-          banner.font = 'Bangers'
-          banner.padding.set(10, 16)
-          banner.fontSize = 120
-          banner.fill = '#77BFA3'
-          banner.smoothed = false
-          banner.anchor.setTo(0.5)
-        }
+    if (this.player.state.high === true) {
+      if (this.cop === undefined) {
+        this.cop = new Cop({
+          game: this.game,
+          x: 200,
+          y: this.world.height - BLOCK_SIZE,
+          asset: 'cop'
+        })
       }
-    )
+      arcade.overlap(
+        this.player,
+        this.home,
+        _ => {
+          if (this.player.depositWeed(this.home) === true) {
+            let bannerText = 'LEVEL UP !'
+            let banner = this.add.text(this.game.width / 2, this.game.height / 2, bannerText)
+            banner.font = 'Bangers'
+            banner.padding.set(10, 16)
+            banner.fontSize = 120
+            banner.fill = '#77BFA3'
+            banner.smoothed = false
+            banner.anchor.setTo(0.5)
+          }
+        }
+      )
+    }
 
     arcade.overlap(
       this.player,
