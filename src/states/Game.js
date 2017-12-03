@@ -55,6 +55,7 @@ export default class extends Phaser.State {
 
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT ])
     game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(Player.jump, this.player)
+    game.input.keyboard.addKey(Phaser.Keyboard.UP).onDown.add(Player.jump, this.player)
     this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
   }
@@ -113,6 +114,7 @@ export default class extends Phaser.State {
     if (__DEV__) {
       // this.game.debug.spriteInfo(this.player, 32, 32)
       // this.game.debug.body(this.player);
+      // this.game.debug.body(this.cop);
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)
     }
   }
