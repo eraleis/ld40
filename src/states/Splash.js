@@ -35,6 +35,9 @@ export default class extends Phaser.State {
     this.load.spritesheet('player', 'assets/images/player.png', 60, 64, 5)
     this.load.spritesheet('cop', 'assets/images/cop.png', 60, 64, 5)
     this.load.spritesheet('coin', 'assets/images/coin.png', 300, 300, 5)
+    this.load.spritesheet('blood_particle', 'assets/images/blood_particle.png')
+
+    game.load.audio('pickup_coin', 'assets/audio/pickup_coin.wav');
   }
 
   create () {

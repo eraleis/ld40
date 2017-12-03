@@ -13,7 +13,13 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0, high: false, score: 0, invulnerable: Math.floor(Date.now() / 1000) }
+    this.state = { current_jump: 0, high: true, score: 0, invulnerable: Math.floor(Date.now() / 1000) }
+
+    this.coin_particles = game.add.emitter(0, 0, 100);
+    this.coin_particles.makeParticles('coin');
+    this.coin_particles.gravity = 200;
+    this.coin_particles.minParticleScale = 0.2;
+    this.coin_particles.maxParticleScale = 0.2;
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
@@ -42,7 +48,9 @@ export default class extends Phaser.Sprite {
     if (Math.floor(Date.now() / 1000) - this.state.invulnerable > 2) {
       this.state.invulnerable = Math.floor(Date.now() / 1000)
       this.state.score -= nb
+      let nb_particles = nb
       if (this.state.score < 0) {
+        nb_particles = Math.abs(this.state.score)
         this.state.score = 0
       }
 
@@ -55,12 +63,27 @@ export default class extends Phaser.Sprite {
         this.tint = tints[i++]
       }, this);
 
+      this.coin_particles.x = this.x
+      this.coin_particles.y = this.y
+      this.coin_particles.start(true, 2000, null, nb_particles);
+
       setTimeout(function () {
         game.time.events.remove(self.flash_event)
         self.tint = 0xffffff
       }, 2000);
     }
     return this.state.score
+  }
+
+  explode () {
+    let explosion = game.add.emitter(0, 0, 100);
+    explosion.makeParticles('blood_particle');
+    explosion.gravity = 200;
+    explosion.x = this.x
+    explosion.y = this.y
+
+    this.kill()
+    explosion.start(true, 2000, null, 50);
   }
 
   moveLeft () {

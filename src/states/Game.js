@@ -82,6 +82,7 @@ export default class extends Phaser.State {
   }
 
   update () {
+    var self = this
     this.animateBackgroup()
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
@@ -103,7 +104,10 @@ export default class extends Phaser.State {
         this.score.setScore(this.player.hit(enemy.props.power))
 
         if (this.player.state.score === 0) {
-          this.gameOver()
+          this.player.explode()
+          setTimeout(function () {
+            self.gameOver()
+          }, 1000);
         }
       }))
     })
