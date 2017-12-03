@@ -9,6 +9,11 @@ export default class extends Phaser.Sprite {
     this.scale.set(0.1)
 
     this.props = { }
-    this.state = { }
+    this.state = { direction: 1 }
+
+    this.game.time.events.loop(200, _ => {
+      this.y += 15 * this.state.direction * -1
+      this.state.direction *= -1
+    }, this)
   }
 }
