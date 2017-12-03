@@ -12,4 +12,4 @@ const HEIGHT = map.length
 
 const BLOCK_SIZE = 32
 
-export { map, WIDTH , HEIGHT, BLOCK_SIZE }
+export { map, WIDTH, HEIGHT, BLOCK_SIZE }
