@@ -4,7 +4,7 @@ import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
 import Cop from '../sprites/Cop'
-import GenerateMap from '../services/GenerateMapService'
+import { generateMap, generateEnemies } from '../services/GenerateMapService'
 import { WIDTH as MAP_WIDTH } from '../data/Map'
 
 const BLOCK_SIZE = 32
@@ -21,7 +21,9 @@ export default class extends Phaser.State {
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
-    this.worldGroup = GenerateMap(game)
+    this.worldGroup = generateMap(game)
+
+    this.enemies = undefined
 
     this.home = new Home({
       game: this.game,
@@ -61,7 +63,7 @@ export default class extends Phaser.State {
 
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
-    arcade.overlap(this.cop, this.worldGroup, _ => this.cop.reverse())
+    arcade.overlap(this.enemies, this.worldGroup, _ => this.cop.reverse())
 
     arcade.overlap(
       this.player,
@@ -70,13 +72,8 @@ export default class extends Phaser.State {
     )
 
     if (this.player.state.high === true) {
-      if (this.cop === undefined) {
-        this.cop = new Cop({
-          game: this.game,
-          x: 200,
-          y: this.world.height - BLOCK_SIZE,
-          asset: 'cop'
-        })
+      if (this.enemies === undefined) {
+        this.enemies = generateEnemies(this.game)
       }
       arcade.overlap(
         this.player,
@@ -98,8 +95,8 @@ export default class extends Phaser.State {
 
     arcade.overlap(
       this.player,
-      this.cop,
-      _ => { this.state.start('GameOver') }
+      this.enemies,
+      _ => { this.gameOver() }
     )
 
     if (this.rightKey.isDown) {
@@ -110,7 +107,7 @@ export default class extends Phaser.State {
       this.player.stopMove()
     }
 
-    if (this.player.y > this.game.height) { this.state.start('GameOver') }
+    if (this.player.y > this.game.height) { this.gameOver() }
 
     Player.resetJump(this.player)
   }
@@ -122,5 +119,9 @@ export default class extends Phaser.State {
       // this.game.debug.body(this.cop);
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)
     }
+  }
+
+  gameOver () {
+    this.state.start('GameOver')
   }
 }
