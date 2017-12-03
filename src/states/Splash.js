@@ -39,6 +39,8 @@ export default class extends Phaser.State {
 
     game.load.audio('pickup_coin_sound', 'assets/audio/pickup_coin.wav');
     game.load.audio('explosion_sound', 'assets/audio/explosion.wav');
+    game.load.audio('hit_sound', 'assets/audio/hit.wav');
+    game.load.audio('game_over_sound', 'assets/audio/game_over.wav');
   }
 
   create () {

@@ -13,15 +13,16 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0, high: true, score: 0, invulnerable: Math.floor(Date.now() / 1000) }
+    this.state = { current_jump: 0, high: true, score: 10, invulnerable: Math.floor(Date.now() / 1000) }
 
-    this.coin_particles = game.add.emitter(0, 0, 100);
-    this.coin_particles.makeParticles('coin');
-    this.coin_particles.gravity = 200;
-    this.coin_particles.minParticleScale = 0.2;
-    this.coin_particles.maxParticleScale = 0.2;
+    this.coin_particles = game.add.emitter(0, 0, 100)
+    this.coin_particles.makeParticles('coin')
+    this.coin_particles.gravity = 200
+    this.coin_particles.minParticleScale = 0.2
+    this.coin_particles.maxParticleScale = 0.2
 
-    this.coin_sound = game.add.audio('pickup_coin_sound');
+    this.coin_sound = game.add.audio('pickup_coin_sound')
+    this.death_sound = game.add.audio('')
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
@@ -85,6 +86,7 @@ export default class extends Phaser.Sprite {
     explosion.x = this.x
     explosion.y = this.y
 
+    this.death_sound.play()
     this.kill()
     explosion.start(true, 2000, null, 50);
   }
