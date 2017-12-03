@@ -3,11 +3,8 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
-import Cop from '../sprites/Cop'
 import { generateMap, generateEnemies } from '../services/GenerateMapService'
-import { WIDTH as MAP_WIDTH } from '../data/Map'
-
-const BLOCK_SIZE = 32
+import { WIDTH as MAP_WIDTH, BLOCK_SIZE } from '../data/Map'
 
 export default class extends Phaser.State {
   init () {}
@@ -55,12 +52,16 @@ export default class extends Phaser.State {
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
   }
 
-  update () {
-    if (this.game.camera.x !== 0 && this.player.body.velocity.x !== 0 && this.game.camera.x !== MAP_WIDTH * 32 - this.game.width) {
-      let direction = (this.player.body.velocity.x > 0) ? -2 : 2
-      this.background.tilePosition.x += direction
+  animateBackgroup () {
+    if (this.game.camera.x !== 0 &&
+        this.player.body.velocity.x !== 0 &&
+        this.game.camera.x !== MAP_WIDTH * 32 - this.game.width) {
+      this.background.tilePosition.x += (this.player.body.velocity.x > 0) ? -2 : 2
     }
+  }
 
+  update () {
+    this.animateBackgroup()
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
     arcade.overlap(this.enemies, this.worldGroup, _ => this.cop.reverse())
@@ -85,7 +86,7 @@ export default class extends Phaser.State {
             banner.font = 'Bangers'
             banner.padding.set(10, 16)
             banner.fontSize = 120
-            banner.fill = '#77BFA3'
+            banner.fill = '#000000'
             banner.smoothed = false
             banner.anchor.setTo(0.5)
           }
