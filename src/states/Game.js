@@ -118,7 +118,11 @@ export default class extends Phaser.State {
       arcade.overlap(
         this.player,
         this.home,
-        _ => { if (this.player.depositWeed(this.home) === true) { this.state.start('Success') } }
+        _ => {
+          if (this.player.depositWeed(this.home) === true) {
+            this.state.start('Success', true, false, this.player.state.score)
+          }
+        }
       )
     }
 
