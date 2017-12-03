@@ -28,6 +28,11 @@ export default class extends Phaser.State {
     this.game.background_sky.fixedToCamera = true
     this.game.background.fixedToCamera = true
 
+    this.background_music = game.add.audio('background_sound', 0.08, true)
+
+    this.background_music_high = game.add.audio('background_high_sound', 0.08, true)
+    this.background_music.play()
+
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
     this.worldGroup = generateMap(game)
@@ -122,6 +127,8 @@ export default class extends Phaser.State {
       if (!this.highStarted) {
         this.setHighBackground()
         loadHighTextures(this.worldGroup)
+        this.background_music.stop()
+        this.background_music_high.play()
         this.highStarted = true
       }
       if (this.enemies.children.length === 0) {

@@ -13,7 +13,7 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0, high: true, score: 10, invulnerable: Math.floor(Date.now() / 1000) }
+    this.state = { current_jump: 0, high: false, score: 0, invulnerable: Math.floor(Date.now() / 1000) }
 
     this.coin_particles = game.add.emitter(0, 0, 100)
     this.coin_particles.makeParticles('coin')
@@ -22,6 +22,7 @@ export default class extends Phaser.Sprite {
     this.coin_particles.maxParticleScale = 0.2
 
     this.coin_sound = game.add.audio('pickup_coin_sound')
+    this.smoke_weed_sound = game.add.audio('magic_wand_sound')
     this.death_sound = game.add.audio('')
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
@@ -110,6 +111,7 @@ export default class extends Phaser.Sprite {
 
   smokeWeed (weed) {
     this.state.high = true
+    this.smoke_weed_sound.play()
     weed.kill()
   }
 
