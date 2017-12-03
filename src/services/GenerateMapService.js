@@ -10,8 +10,8 @@ export default (game) => {
   for (var i = HEIGHT - 1; i >= 0; i--) {
     pos.x = 0
     for (var j = 0; j < WIDTH; j++) {
-      if (map[i][j] === 1) {
-        let block = game.add.sprite(pos.x, pos.y, 'block')
+      if (map[i][j] > 0) {
+        let block = game.add.sprite(pos.x, pos.y, `block_${map[i][j]}`)
         group.add(block)
         block.anchor.y = 1
         block.body.immovable = true

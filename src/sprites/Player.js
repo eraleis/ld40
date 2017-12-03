@@ -49,6 +49,7 @@ export default class extends Phaser.Sprite {
   }
 
   smokeWeed (weed) {
+    game.camera.shake(0.05, 500);
     this.state.high = true
     weed.kill()
   }
