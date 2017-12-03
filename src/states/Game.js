@@ -11,15 +11,28 @@ export default class extends Phaser.State {
   init () {}
   preload () {}
 
+  setHighBackground () {
+    this.game.background_sky.loadTexture('background_sky_high', 0)
+    this.game.background.loadTexture('background_high', 0)
+    game.camera.flash(0x00ff00, 500);
+    game.time.events.loop(100, _ => {
+      this.game.background_sky.tint = Math.random() * 0xffffff;
+    }, this);
+  }
+
   create () {
     let game = this.game
 
-    this.background = this.game.add.tileSprite(0, 0, 800, 600, 'background')
-    this.background.fixedToCamera = true
+    this.game.background_sky = this.game.add.tileSprite(0, 0, 800, 600, 'background_sky')
+    this.game.background = this.game.add.tileSprite(0, 0, 800, 600, 'background')
+    this.game.background_sky.fixedToCamera = true
+    this.game.background.fixedToCamera = true
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
     this.worldGroup = generateMap(game)
+
+    this.highStarted = false
 
     this.enemies = game.add.group()
     this.items = generateItems(game)
@@ -60,7 +73,8 @@ export default class extends Phaser.State {
     if (this.game.camera.x !== 0 &&
         this.player.body.velocity.x !== 0 &&
         this.game.camera.x !== MAP_WIDTH * 32 - this.game.width) {
-      this.background.tilePosition.x += (this.player.body.velocity.x > 0) ? -2 : 2
+      this.game.background_sky.tilePosition.x += (this.player.body.velocity.x > 0) ? -2 : 2
+      this.game.background.tilePosition.x += (this.player.body.velocity.x > 0) ? -2 : 2
     }
   }
 
@@ -94,6 +108,10 @@ export default class extends Phaser.State {
     )
 
     if (this.player.state.high === true) {
+      if (!this.highStarted) {
+        this.setHighBackground()
+        this.highStarted = true
+      }
       if (this.enemies.children.length === 0) {
         this.enemies = generateEnemies(this.game)
       }
