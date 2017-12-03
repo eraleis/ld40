@@ -1,5 +1,6 @@
 import { map, WIDTH, HEIGHT, BLOCK_SIZE } from '../data/Map'
 import Cop from '../sprites/Cop'
+import Bomb from '../sprites/Bomb'
 
 const generateMap = (game) => {
   let group = game.add.group()
@@ -24,8 +25,12 @@ const generateMap = (game) => {
   return group
 }
 
+const ENEMIES = {
+  6: (g, p) => { return new Cop({ game: g, x: p.x, y: p.y, asset: 'cop' }) },
+  7: (g, p) => { return new Bomb({ game: g, x: p.x, y: p.y, asset: 'bomb' }) }
+}
+
 const generateEnemies = (game) => {
-  let arr = { 6: Cop }
   let group = game.add.group()
 
   var pos = { x: 0, y: game.world.height }
@@ -34,12 +39,8 @@ const generateEnemies = (game) => {
     pos.x = 0
     for (var j = 0; j < WIDTH; j++) {
       if (map[i][j] >= 6) {
-        let enemy = new Cop({
-          game: game,
-          x: pos.x,
-          y: pos.y,
-          asset: 'cop'
-        })
+        let enemy = ENEMIES[map[i][j]](game, pos)
+        console.log('DEBUG :: ', enemy)
         group.add(enemy)
       }
       pos.x += BLOCK_SIZE

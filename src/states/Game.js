@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
+import Bomb from '../sprites/Bomb'
 import { generateMap, generateEnemies } from '../services/GenerateMapService'
 import { WIDTH as MAP_WIDTH, BLOCK_SIZE } from '../data/Map'
 
@@ -64,7 +65,7 @@ export default class extends Phaser.State {
     this.animateBackgroup()
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
-    arcade.overlap(this.enemies, this.worldGroup, _ => this.cop.reverse())
+    // arcade.overlap(this.enemies, this.worldGroup, _ => this.cop.reverse())
 
     arcade.overlap(
       this.player,
