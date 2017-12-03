@@ -118,18 +118,7 @@ export default class extends Phaser.State {
       arcade.overlap(
         this.player,
         this.home,
-        _ => {
-          if (this.player.depositWeed(this.home) === true) {
-            let bannerText = 'LEVEL UP !'
-            let banner = this.add.text(this.game.width / 2, this.game.height / 2, bannerText)
-            banner.font = 'Bangers'
-            banner.padding.set(10, 16)
-            banner.fontSize = 120
-            banner.fill = '#000000'
-            banner.smoothed = false
-            banner.anchor.setTo(0.5)
-          }
-        }
+        _ => { if (this.player.depositWeed(this.home) === true) { this.state.start('Success') } }
       )
     }
 
