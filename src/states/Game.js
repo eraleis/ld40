@@ -4,7 +4,7 @@ import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
 import Score from '../sprites/Score'
-import { generateMap, generateEnemies, generateItems } from '../services/GenerateMapService'
+import { generateMap, generateEnemies, generateItems, loadHighTextures } from '../services/GenerateMapService'
 import { WIDTH as MAP_WIDTH, BLOCK_SIZE } from '../data/Map'
 
 export default class extends Phaser.State {
@@ -114,6 +114,7 @@ export default class extends Phaser.State {
     if (this.player.state.high === true) {
       if (!this.highStarted) {
         this.setHighBackground()
+        loadHighTextures(this.worldGroup)
         this.highStarted = true
       }
       if (this.enemies.children.length === 0) {

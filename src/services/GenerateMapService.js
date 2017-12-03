@@ -26,6 +26,12 @@ const generateMap = (game) => {
   return group
 }
 
+const loadHighTextures = (group) => {
+  group.children.forEach( (block) => {
+    block.loadTexture(`${block.key}_high`)
+  })
+}
+
 const ENTITIES = {
   5: (g, p) => { return new Coin({ game: g, x: p.x, y: p.y, asset: 'coin' }) },
   6: (g, p) => { return new Cop({ game: g, x: p.x, y: p.y, asset: 'cop' }) },
@@ -70,4 +76,4 @@ const generateItems = (game) => {
   return group
 }
 
-export { generateMap, generateEnemies, generateItems }
+export { generateMap, generateEnemies, generateItems, loadHighTextures }
