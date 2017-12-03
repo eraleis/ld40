@@ -5,13 +5,22 @@ export default class extends Phaser.Sprite {
     super(game, x, y, asset)
     game.add.existing(this)
 
+    this.anchor.setTo(0, 1)
     this.scale.set(0.2)
+    // this.body.setSize(160, 238, 170, 135)
+    this.y += 28
+    this.x -= 34
+    this.overlaping = false
 
-    this.animations.add('explode', [], 15, true)
+    this.animations.add('explode', [], 25, false)
   }
 
-  static onOverlap () { this.animations.play('explode') }
-
-  canMove () {}
-  reverse () {}
+  onOverlap (callback) {
+    if (this.overlaping) {
+      if (this.frame >= 15) { callback() }
+    }
+    this.overlaping = true
+    this.animations.play('explode')
+    this.events.onAnimationComplete.add(_ => { this.kill() });
+  }
 }

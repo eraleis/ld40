@@ -14,6 +14,7 @@ export default class extends Phaser.Sprite {
 
     this.props = {}
     this.state = {}
+    this.overlaping = false
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 10, true)
     this.animations.play('walk')
@@ -29,7 +30,16 @@ export default class extends Phaser.Sprite {
 
   reverse () {
     this.body.velocity.x *= -1
+    this.x += this.body.velocity.x > 0 ? 10 : -10
     this.scale.set(this.scale.x *= -1, this.scale.y)
+  }
+
+  onOverlap (callback) {
+    if (this.overlaping) {
+      return
+    }
+    this.overlaping = true
+    callback()
   }
 
   update () {
