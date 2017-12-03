@@ -21,7 +21,7 @@ export default class extends Phaser.State {
     game.world.enableBody = true
     this.worldGroup = generateMap(game)
 
-    this.enemies = undefined
+    this.enemies = game.add.group()
 
     this.home = new Home({
       game: this.game,
@@ -65,7 +65,16 @@ export default class extends Phaser.State {
     this.animateBackgroup()
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
-    // arcade.overlap(this.enemies, this.worldGroup, _ => this.cop.reverse())
+
+    // Overlap with enemies
+    this.enemies.children.forEach((enemy) => {
+      if (enemy.key === 'cop') {
+        arcade.overlap(enemy, this.worldGroup, _ => enemy.reverse())
+      }
+      arcade.overlap(this.player, enemy, _ => enemy.onOverlap(_ => {
+        this.gameOver()
+      }))
+    })
 
     arcade.overlap(
       this.player,
@@ -74,7 +83,7 @@ export default class extends Phaser.State {
     )
 
     if (this.player.state.high === true) {
-      if (this.enemies === undefined) {
+      if (this.enemies.children.length === 0) {
         this.enemies = generateEnemies(this.game)
       }
       arcade.overlap(
@@ -95,12 +104,6 @@ export default class extends Phaser.State {
       )
     }
 
-    arcade.overlap(
-      this.player,
-      this.enemies,
-      _ => { this.gameOver() }
-    )
-
     if (this.rightKey.isDown) {
       this.player.moveRight()
     } else if (this.leftKey.isDown) {
@@ -118,7 +121,9 @@ export default class extends Phaser.State {
     if (__DEV__) {
       // this.game.debug.spriteInfo(this.player, 32, 32)
       // this.game.debug.body(this.player);
-      // this.game.debug.body(this.cop);
+      // this.enemies.children.forEach((enemy) => {
+      //   this.game.debug.body(enemy);
+      // })
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)
     }
   }
