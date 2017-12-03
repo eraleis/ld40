@@ -9,8 +9,6 @@ export default class extends Phaser.State {
   preload () {}
 
   create () {
-    this.state.start('Game', true, false)
-
     this.startButton = new StartButton({
       game: this.game,
       x: this.game.width / 2,
