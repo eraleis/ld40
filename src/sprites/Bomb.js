@@ -12,14 +12,22 @@ export default class extends Phaser.Sprite {
     this.overlaping = false
 
     this.props = { power: 4 }
+    this.explosion_sound = game.add.audio('explosion_sound');
 
     this.animations.add('explode', [], 25, false)
   }
 
   onOverlap (callback) {
+    var self = this
+
     if (this.overlaping && this.frame >= 15) { callback() }
+    if (!this.overlaping) {
+      setTimeout(function () { self.explosion_sound.play() }, 800)
+    }
     this.overlaping = true
     this.animations.play('explode')
-    this.events.onAnimationComplete.add(_ => { this.kill() })
+    this.events.onAnimationComplete.add(_ => {
+      this.kill()
+    })
   }
 }

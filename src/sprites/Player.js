@@ -21,6 +21,8 @@ export default class extends Phaser.Sprite {
     this.coin_particles.minParticleScale = 0.2;
     this.coin_particles.maxParticleScale = 0.2;
 
+    this.coin_sound = game.add.audio('pickup_coin_sound');
+
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
 
@@ -39,6 +41,7 @@ export default class extends Phaser.Sprite {
 
   pickUpCoin () {
     this.state.score++
+    this.coin_sound.play();
     return this.state.score
   }
 
