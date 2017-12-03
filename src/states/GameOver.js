@@ -3,8 +3,7 @@ import ResetButton from '../sprites/Reset'
 import BackButton from '../sprites/Back'
 
 export default class extends Phaser.State {
-  init (score) {
-    this.score = score
+  init () {
     this.stage.backgroundColor = '#000033'
   }
 
@@ -12,7 +11,7 @@ export default class extends Phaser.State {
 
   gameOverTitle () {
     let bannerText = 'GAME OVER!'
-    let banner = this.add.text(this.game.width / 2, this.game.height / 2.7, bannerText)
+    let banner = this.add.text(this.game.width / 2, this.game.height / 3, bannerText)
     banner.font = 'Shrikhand'
     banner.padding.set(10, 16)
     banner.fontSize = 100
@@ -22,20 +21,6 @@ export default class extends Phaser.State {
   }
 
   create () {
-    let scoreText = `${this.score}`
-    let score = this.add.text(this.game.width / 2, this.game.height / 6, scoreText)
-    score.font = 'Shrikhand'
-    score.fontSize = 100
-    score.fill = '#ffffff'
-    score.anchor.setTo(1, 0.5)
-    score.smoothed = false
-
-    this.coin = this.game.add.sprite(this.game.width / 2 + 110, this.game.height / 6, 'coin')
-    this.coin.animations.add('rotate', [], 10, true)
-    this.coin.animations.play('rotate')
-    this.coin.anchor.setTo(0.5)
-
-    this.coin.scale.set(0.9)
     this.gameOverTitle()
 
     this.backButton = new BackButton({

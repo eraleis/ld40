@@ -138,7 +138,7 @@ export default class extends Phaser.State {
       this.player.stopMove()
     }
 
-    if (this.player.y > this.game.height) { this.gameOver(this.player.state.score) }
+    if (this.player.y > this.game.height) { this.gameOver() }
 
     Player.resetJump(this.player)
   }
@@ -154,7 +154,7 @@ export default class extends Phaser.State {
     }
   }
 
-  gameOver (score) {
-    this.state.start('GameOver', true, false, score)
+  gameOver () {
+    this.state.start('GameOver')
   }
 }
