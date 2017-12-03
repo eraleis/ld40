@@ -3,8 +3,8 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
-import Bomb from '../sprites/Bomb'
-import { generateMap, generateEnemies } from '../services/GenerateMapService'
+import Score from '../sprites/Score'
+import { generateMap, generateEnemies, generateItems } from '../services/GenerateMapService'
 import { WIDTH as MAP_WIDTH, BLOCK_SIZE } from '../data/Map'
 
 export default class extends Phaser.State {
@@ -22,6 +22,14 @@ export default class extends Phaser.State {
     this.worldGroup = generateMap(game)
 
     this.enemies = game.add.group()
+    this.items = generateItems(game)
+
+    this.score = new Score({
+      game: this.game,
+      x: 50,
+      y: 50,
+      text: 'Score: 0'
+    })
 
     this.home = new Home({
       game: this.game,
@@ -30,12 +38,7 @@ export default class extends Phaser.State {
       asset: 'home'
     })
 
-    this.player = new Player({
-      game: this.game,
-      x: 55,
-      y: 0,
-      asset: 'player'
-    })
+    this.player = new Player({ game: this.game, x: 55, y: 0, asset: 'player' })
 
     this.weed = new Weed({
       game: this.game,
@@ -65,6 +68,14 @@ export default class extends Phaser.State {
     this.animateBackgroup()
     let arcade = this.game.physics.arcade
     arcade.collide(this.player, this.worldGroup)
+
+    // Overlap with items
+    this.items.children.forEach((item) => {
+      arcade.overlap(this.player, item, _ => item.onOverlap(_ => {
+        let score = this.player.pickUpCoin()
+        this.score.setScore(score)
+      }))
+    })
 
     // Overlap with enemies
     this.enemies.children.forEach((enemy) => {
