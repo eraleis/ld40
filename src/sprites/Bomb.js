@@ -7,7 +7,6 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0, 1)
     this.scale.set(0.2)
-    // this.body.setSize(160, 238, 170, 135)
     this.y += 28
     this.x -= 34
     this.overlaping = false
@@ -16,11 +15,9 @@ export default class extends Phaser.Sprite {
   }
 
   onOverlap (callback) {
-    if (this.overlaping) {
-      if (this.frame >= 15) { callback() }
-    }
+    if (this.overlaping && this.frame >= 15) { callback() }
     this.overlaping = true
     this.animations.play('explode')
-    this.events.onAnimationComplete.add(_ => { this.kill() });
+    this.events.onAnimationComplete.add(_ => { this.kill() })
   }
 }
