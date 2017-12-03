@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import ResetButton from '../sprites/Reset'
 
 export default class extends Phaser.State {
   init (score) {
@@ -37,5 +38,14 @@ export default class extends Phaser.State {
       banner.fill = colors[i]
       i++
     }, this)
+
+    this.resetButton = new ResetButton({
+      game: this.game,
+      x: this.game.width / 2,
+      y: this.game.height / 1.4,
+      asset: 'reset'
+    })
+
+    this.resetButton.events.onInputDown.add(ResetButton.onClick, this)
   }
 }
