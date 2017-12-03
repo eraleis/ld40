@@ -97,7 +97,7 @@ export default class extends Phaser.State {
         arcade.overlap(enemy, this.worldGroup, _ => enemy.reverse())
       }
       arcade.overlap(this.player, enemy, _ => enemy.onOverlap(_ => {
-        this.gameOver()
+        this.gameOver(this.player.state.score)
       }))
     })
 
@@ -134,7 +134,7 @@ export default class extends Phaser.State {
       this.player.stopMove()
     }
 
-    if (this.player.y > this.game.height) { this.gameOver() }
+    if (this.player.y > this.game.height) { this.gameOver(this.player.state.score) }
 
     Player.resetJump(this.player)
   }
@@ -150,7 +150,7 @@ export default class extends Phaser.State {
     }
   }
 
-  gameOver () {
-    this.state.start('GameOver')
+  gameOver (score) {
+    this.state.start('GameOver', true, false, score)
   }
 }
