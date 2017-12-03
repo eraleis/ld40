@@ -16,6 +16,9 @@ const generateMap = (game) => {
       if (map[i][j] > 0 && map[i][j] < 5) {
         let block = game.add.sprite(pos.x, pos.y, `block_${map[i][j]}`)
         group.add(block)
+        if (map[i][j] === 2) {
+          block.body.setSize(block.body.width, 10, 0, 0)
+        }
         block.anchor.y = 1
         block.body.immovable = true
       }
