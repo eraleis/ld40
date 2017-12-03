@@ -14,7 +14,7 @@ export default class extends Phaser.State {
   setHighBackground () {
     this.game.background_sky.loadTexture('background_sky_high', 0)
     this.game.background.loadTexture('background_high', 0)
-    game.camera.flash(0x00ff00, 500);
+    game.camera.flash(0x00ff00, 1000);
     game.time.events.loop(100, _ => {
       this.game.background_sky.tint = Math.random() * 0xffffff;
     }, this);
@@ -97,7 +97,11 @@ export default class extends Phaser.State {
         arcade.overlap(enemy, this.worldGroup, _ => enemy.reverse())
       }
       arcade.overlap(this.player, enemy, _ => enemy.onOverlap(_ => {
-        this.gameOver()
+        this.score.setScore(this.player.hit(enemy.props.power))
+
+        if (this.player.state.score === 0) {
+          this.gameOver()
+        }
       }))
     })
 

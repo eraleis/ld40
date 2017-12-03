@@ -13,7 +13,7 @@ export default class extends Phaser.Sprite {
     this.body.mass = 2
 
     this.props = { max_jump: 2 }
-    this.state = { current_jump: 0, high: false, score: 0 }
+    this.state = { current_jump: 0, high: false, score: 0, invulnerable: Math.floor(Date.now() / 1000) }
 
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
@@ -33,6 +33,33 @@ export default class extends Phaser.Sprite {
 
   pickUpCoin () {
     this.state.score++
+    return this.state.score
+  }
+
+  hit (nb) {
+    var self = this
+
+    if (Math.floor(Date.now() / 1000) - this.state.invulnerable > 2) {
+      this.state.invulnerable = Math.floor(Date.now() / 1000)
+      this.state.score -= nb
+      if (this.state.score < 0) {
+        this.state.score = 0
+      }
+
+      let i = 0
+      let tints = [0xff0000, 0xffffff]
+      this.flash_event = game.time.events.loop(100, _ => {
+        if (i > 1) {
+          i = 0
+        }
+        this.tint = tints[i++]
+      }, this);
+
+      setTimeout(function () {
+        game.time.events.remove(self.flash_event)
+        self.tint = 0xffffff
+      }, 2000);
+    }
     return this.state.score
   }
 

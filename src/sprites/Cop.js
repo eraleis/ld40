@@ -12,7 +12,7 @@ export default class extends Phaser.Sprite {
 
     this.body.velocity.x = 100
 
-    this.props = {}
+    this.props = { power: 2 }
     this.state = {}
     this.overlaping = false
 
@@ -35,10 +35,6 @@ export default class extends Phaser.Sprite {
   }
 
   onOverlap (callback) {
-    if (this.overlaping) {
-      return
-    }
-    this.overlaping = true
     callback()
   }
 

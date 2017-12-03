@@ -11,6 +11,8 @@ export default class extends Phaser.Sprite {
     this.x -= 34
     this.overlaping = false
 
+    this.props = { power: 4 }
+
     this.animations.add('explode', [], 25, false)
   }
 
