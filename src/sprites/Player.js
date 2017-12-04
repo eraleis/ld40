@@ -93,13 +93,23 @@ export default class extends Phaser.Sprite {
   }
 
   moveLeft () {
-    this.body.velocity.x = -200
+    if (this.x > 10) {
+      this.body.velocity.x = -200
+    }
+    else {
+      this.body.velocity.x = 0
+    }
     this.scale.set(1, 1)
     this.animations.play('walk')
   }
 
   moveRight () {
-    this.body.velocity.x = 200
+    if (this.x < this.game.world.width - 10) {
+      this.body.velocity.x = 200
+    }
+    else {
+      this.body.velocity.x = 0
+    }
     this.scale.set(-1, 1)
     this.animations.play('walk')
   }
