@@ -10,6 +10,7 @@ export default class extends Phaser.State {
     centerGameObjects([this.loaderBg, this.loaderBar])
 
     this.load.setPreloadSprite(this.loaderBar)
+
     //
     // load your assets
     //
@@ -38,14 +39,19 @@ export default class extends Phaser.State {
     this.load.spritesheet('coin', 'assets/images/coin.png', 300, 300, 5)
     this.load.spritesheet('blood_particle', 'assets/images/blood_particle.png')
 
-    game.load.audio('pickup_coin_sound', 'assets/audio/pickup_coin.wav');
-    game.load.audio('explosion_sound', 'assets/audio/explosion.wav');
-    game.load.audio('hit_sound', 'assets/audio/hit.wav');
-    game.load.audio('magic_wand_sound', 'assets/audio/magic_wand.wav');
-    game.load.audio('gameover_sound', 'assets/audio/gameover.wav');
-    game.load.audio('gamewin_sound', 'assets/audio/gamewin.wav');
-    game.load.audio('background_sound', 'assets/audio/background.wav');
-    game.load.audio('background_high_sound', 'assets/audio/background_high.mp3');
+    let audio_extension = 'ogg'
+    if (this.game.device.safari) {
+      audio_extension = 'wav'
+    }
+
+    game.load.audio('pickup_coin_sound', `assets/audio/pickup_coin.${audio_extension}`);
+    game.load.audio('explosion_sound', `assets/audio/explosion.${audio_extension}`);
+    game.load.audio('hit_sound', `assets/audio/hit.${audio_extension}`);
+    game.load.audio('magic_wand_sound', `assets/audio/magic_wand.${audio_extension}`);
+    game.load.audio('gameover_sound', `assets/audio/gameover.${audio_extension}`);
+    game.load.audio('gamewin_sound', `assets/audio/gamewin.${audio_extension}`);
+    game.load.audio('background_sound', `assets/audio/background.${audio_extension}`);
+    game.load.audio('background_high_sound', `assets/audio/background_high.${audio_extension}`);
   }
 
   create () {
