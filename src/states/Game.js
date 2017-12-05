@@ -4,32 +4,12 @@ import Player from '../sprites/Player'
 import Weed from '../sprites/Weed'
 import Home from '../sprites/Home'
 import Score from '../sprites/Score'
-import { generateMap, generateEnemies, generateItems, loadHighTextures } from '../services/GenerateMapService'
+import { generateMap, generateEnemies, generateItems, loadHighTextures } from '../services/MapService'
 import { WIDTH as MAP_WIDTH, BLOCK_SIZE } from '../data/Map'
 
 export default class extends Phaser.State {
   init () {}
   preload () {}
-
-  setHighBackground () {
-    this.game.background_sky.loadTexture('background_sky_high', 0)
-    this.game.background.loadTexture('background_high', 0)
-    game.camera.flash(0x00ff00, 1000);
-    game.time.events.loop(100, _ => {
-      this.game.background_sky.tint = Math.random() * 0xffffff;
-    }, this);
-  }
-
-  leftArrow () {
-    this.arrow_left = this.game.add.sprite(this.world.width - 50, 50, 'arrow_left')
-    this.arrow_left.anchor.set(1, 0)
-    this.arrow_left.scale.setTo(0)
-    game.time.events.loop(100, _ => {
-      this.arrow_left.tint = Math.random() * 0xffffff;
-    }, this);
-
-    this.add.tween(this.arrow_left.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Back.Out, true, 1000)
-  }
 
   create () {
     let game = this.game
@@ -46,7 +26,7 @@ export default class extends Phaser.State {
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true
-    this.worldGroup = generateMap(game)
+    this.game.worldGroup = generateMap(game)
 
     this.highStarted = false
 
@@ -101,7 +81,7 @@ export default class extends Phaser.State {
     var self = this
     this.animateBackgroup()
     let arcade = this.game.physics.arcade
-    arcade.collide(this.player, this.worldGroup)
+    arcade.collide(this.player, this.game.worldGroup)
 
     // Overlap with items
     this.items.children.forEach((item) => {
@@ -114,7 +94,7 @@ export default class extends Phaser.State {
     // Overlap with enemies
     this.enemies.children.forEach((enemy) => {
       if (enemy.key === 'cop') {
-        arcade.overlap(enemy, this.worldGroup, _ => enemy.reverse())
+        arcade.overlap(enemy, this.game.worldGroup, _ => enemy.reverse())
       }
       arcade.overlap(this.player, enemy, _ => enemy.onOverlap(_ => {
         this.score.setScore(this.player.hit(enemy.props.power))
@@ -136,9 +116,7 @@ export default class extends Phaser.State {
 
     if (this.player.state.high === true) {
       if (!this.highStarted) {
-        this.leftArrow()
-        this.setHighBackground()
-        loadHighTextures(this.worldGroup)
+        loadHighTextures(this.game)
         this.background_music.stop()
         this.background_music_high.play()
         this.highStarted = true
@@ -177,7 +155,7 @@ export default class extends Phaser.State {
       // this.enemies.children.forEach((enemy) => {
       //   this.game.debug.body(enemy);
       // })
-      // this.worldGroup.children.forEach((enemy) => {
+      // this.game.worldGroup.children.forEach((enemy) => {
       //   this.game.debug.body(enemy);
       // })
       // this.game.debug.cameraInfo(this.game.camera, 120, 120)

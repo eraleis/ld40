@@ -3,6 +3,12 @@ import Cop from '../sprites/Cop'
 import Bomb from '../sprites/Bomb'
 import Coin from '../sprites/Coin'
 
+const ENTITIES = {
+  5: (g, p) => { return new Coin({ game: g, x: p.x, y: p.y, asset: 'coin' }) },
+  6: (g, p) => { return new Cop({ game: g, x: p.x, y: p.y, asset: 'cop' }) },
+  7: (g, p) => { return new Bomb({ game: g, x: p.x, y: p.y, asset: 'bomb' }) }
+}
+
 const generateMap = (game) => {
   let group = game.add.group()
 
@@ -29,16 +35,29 @@ const generateMap = (game) => {
   return group
 }
 
-const loadHighTextures = (group) => {
-  group.children.forEach( (block) => {
+const loadHighTextures = (game) => {
+  // Load 'high' blocks
+  game.worldGroup.children.forEach( (block) => {
     block.loadTexture(`${block.key}_high`)
   })
-}
 
-const ENTITIES = {
-  5: (g, p) => { return new Coin({ game: g, x: p.x, y: p.y, asset: 'coin' }) },
-  6: (g, p) => { return new Cop({ game: g, x: p.x, y: p.y, asset: 'cop' }) },
-  7: (g, p) => { return new Bomb({ game: g, x: p.x, y: p.y, asset: 'bomb' }) }
+  // Load 'high' sky texture + make it flash
+  game.background_sky.loadTexture('background_sky_high', 0)
+  game.background.loadTexture('background_high', 0)
+  game.camera.flash(0x00ff00, 1000);
+  game.time.events.loop(100, _ => {
+    game.background_sky.tint = Math.random() * 0xffffff;
+  }, this);
+
+  // Load return home arrow at the end of the level
+  var arrow_left = game.add.sprite(game.world.width - 50, 50, 'arrow_left')
+  arrow_left.anchor.set(1, 0)
+  arrow_left.scale.setTo(0)
+  game.time.events.loop(100, _ => {
+    arrow_left.tint = Math.random() * 0xffffff;
+  }, this);
+
+  game.add.tween(arrow_left.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Back.Out, true, 1000)
 }
 
 const generateEnemies = (game) => {
