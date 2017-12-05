@@ -43,7 +43,7 @@ export default class extends Phaser.Sprite {
 
   pickUpCoin () {
     this.state.score++
-    this.coin_sound.play();
+    this.coin_sound.play()
     return this.state.score
   }
 
@@ -53,50 +53,49 @@ export default class extends Phaser.Sprite {
     if (Math.floor(Date.now() / 1000) - this.state.invulnerable > 2) {
       this.state.invulnerable = Math.floor(Date.now() / 1000)
       this.state.score -= nb
-      let nb_particles = nb
+      let nbParticles = nb
       if (this.state.score < 0) {
-        nb_particles = Math.abs(this.state.score)
+        nbParticles = Math.abs(this.state.score)
         this.state.score = 0
       }
 
       let i = 0
       let tints = [0xff0000, 0xffffff]
-      this.flash_event = game.time.events.loop(100, _ => {
+      this.flash_event = this.game.time.events.loop(100, _ => {
         if (i > 1) {
           i = 0
         }
         this.tint = tints[i++]
-      }, this);
+      }, this)
 
       this.coin_particles.x = this.x
       this.coin_particles.y = this.y
-      this.coin_particles.start(true, 2000, null, nb_particles);
+      this.coin_particles.start(true, 2000, null, nbParticles)
 
       setTimeout(function () {
-        game.time.events.remove(self.flash_event)
+        this.game.time.events.remove(self.flash_event)
         self.tint = 0xffffff
-      }, 2000);
+      }, 2000)
     }
     return this.state.score
   }
 
   explode () {
-    let explosion = game.add.emitter(0, 0, 100);
-    explosion.makeParticles('blood_particle');
-    explosion.gravity = 200;
+    let explosion = this.game.add.emitter(0, 0, 100)
+    explosion.makeParticles('blood_particle')
+    explosion.gravity = 200
     explosion.x = this.x
     explosion.y = this.y
 
     this.death_sound.play()
     this.kill()
-    explosion.start(true, 2000, null, 50);
+    explosion.start(true, 2000, null, 50)
   }
 
   moveLeft () {
     if (this.x > 10) {
       this.body.velocity.x = -200
-    }
-    else {
+    } else {
       this.body.velocity.x = 0
     }
     this.scale.set(1, 1)
@@ -106,8 +105,7 @@ export default class extends Phaser.Sprite {
   moveRight () {
     if (this.x < this.game.world.width - 10) {
       this.body.velocity.x = 200
-    }
-    else {
+    } else {
       this.body.velocity.x = 0
     }
     this.scale.set(-1, 1)

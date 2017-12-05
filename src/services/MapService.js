@@ -1,3 +1,4 @@
+import Phaser from 'phaser'
 import { map, WIDTH, HEIGHT, BLOCK_SIZE } from '../data/Map'
 import Cop from '../sprites/Cop'
 import Bomb from '../sprites/Bomb'
@@ -44,27 +45,27 @@ const generateMap = (game) => {
 
 const loadHighTextures = (game) => {
   // Load 'high' blocks
-  game.entities.world.children.forEach( (block) => {
+  game.entities.world.children.forEach((block) => {
     block.loadTexture(`${block.key}_high`)
   })
 
   // Load 'high' sky texture + make it flash
   game.background_sky.loadTexture('background_sky_high', 0)
   game.background.loadTexture('background_high', 0)
-  game.camera.flash(0x00ff00, 1000);
+  game.camera.flash(0x00ff00, 1000)
   game.time.events.loop(100, _ => {
-    game.background_sky.tint = Math.random() * 0xffffff;
-  }, this);
+    game.background_sky.tint = Math.random() * 0xffffff
+  }, this)
 
   // Load return home arrow at the end of the level
-  var arrow_left = game.add.sprite(game.world.width - 50, 50, 'arrow_left')
-  arrow_left.anchor.set(1, 0)
-  arrow_left.scale.setTo(0)
+  var arrowLeft = game.add.sprite(game.world.width - 50, 50, 'arrow_left')
+  arrowLeft.anchor.set(1, 0)
+  arrowLeft.scale.setTo(0)
   game.time.events.loop(100, _ => {
-    arrow_left.tint = Math.random() * 0xffffff;
-  }, this);
+    arrowLeft.tint = Math.random() * 0xffffff
+  }, this)
 
-  game.add.tween(arrow_left.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Back.Out, true, 1000)
+  game.add.tween(arrowLeft.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Back.Out, true, 1000)
 }
 
 const generateEnemies = (game) => {
