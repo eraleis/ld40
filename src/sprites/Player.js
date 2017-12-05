@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
-  constructor ({ game, x, y, asset }) {
-    super(game, x, y, asset)
+  constructor (game) {
+    super(game, 55, 0, 'player')
     game.add.existing(this)
 
     this.anchor.setTo(0.5)
@@ -114,7 +114,7 @@ export default class extends Phaser.Sprite {
     this.animations.play('walk')
   }
 
-  stopMove () {
+  moveStop () {
     this.body.velocity.x = 0
     this.animations.stop('walk')
   }

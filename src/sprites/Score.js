@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Text {
-  constructor ({ game, x, y, text }) {
-    super(game, x, y, text)
+  constructor (game) {
+    super(game, 50, 50, 'Score: 0')
     this.fixedToCamera = true
     game.add.existing(this)
   }

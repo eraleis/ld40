@@ -10,6 +10,13 @@ const ENTITIES = {
 }
 
 const generateMap = (game) => {
+  // Load background
+  game.background_sky = game.add.tileSprite(0, 0, 800, 600, 'background_sky')
+  game.background = game.add.tileSprite(0, 0, 800, 600, 'background')
+  game.background_sky.fixedToCamera = true
+  game.background.fixedToCamera = true
+
+  // Load blocks
   let group = game.add.group()
 
   game.world.setBounds(0, 0, WIDTH * BLOCK_SIZE, 600)
@@ -37,7 +44,7 @@ const generateMap = (game) => {
 
 const loadHighTextures = (game) => {
   // Load 'high' blocks
-  game.worldGroup.children.forEach( (block) => {
+  game.entities.world.children.forEach( (block) => {
     block.loadTexture(`${block.key}_high`)
   })
 

@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
+import { BLOCK_SIZE } from '../data/Map'
 
 export default class extends Phaser.Sprite {
-  constructor ({ game, x, y, asset }) {
-    super(game, x, y, asset)
+  constructor (game) {
+    super(game, game.world.width - 20, game.world.height - BLOCK_SIZE, 'weed')
     game.add.existing(this)
 
     this.anchor.setTo(0.5, 1)
