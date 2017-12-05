@@ -28,17 +28,21 @@ export default class extends Phaser.Sprite {
     this.animations.add('walk', [0, 1, 2, 1, 0, 3, 4, 3], 15, true)
   }
 
+  resetJumpObserver () {
+    var resetJumpEventLoop = this.game.time.events.loop(20, _ => {
+      if (this.body.velocity.y === 0) {
+        this.state.current_jump = 0
+        this.game.time.events.remove(resetJumpEventLoop)
+      }
+    }, this)
+  }
+
   static jump () {
     if (this.state.current_jump >= this.props.max_jump) { return }
+    if (this.state.current_jump === 0) { this.resetJumpObserver() }
 
     this.body.velocity.y = -500
     this.state.current_jump++
-  }
-
-  static resetJump (player) {
-    if (player.body.velocity.y === 0) {
-      player.state.current_jump = 0
-    }
   }
 
   pickUpCoin () {

@@ -6,11 +6,17 @@ const initializePlayerInput = (game) => {
   game.input.keyboard.addKey(Phaser.Keyboard.UP).onDown.add(Player.jump, game.entities.player)
 
   let leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-  leftKey.onDown.add(game.entities.player.moveLeft, game.entities.player)
-  leftKey.onUp.add(game.entities.player.moveStop, game.entities.player)
   let rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-  rightKey.onDown.add(game.entities.player.moveRight, game.entities.player)
-  rightKey.onUp.add(game.entities.player.moveStop, game.entities.player)
+
+  game.time.events.loop(20, _ => {
+    if (rightKey.isDown) {
+      game.entities.player.moveRight()
+    } else if (leftKey.isDown) {
+      game.entities.player.moveLeft()
+    } else {
+      game.entities.player.moveStop()
+    }
+  }, this)
 }
 
 export { initializePlayerInput }

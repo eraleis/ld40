@@ -114,17 +114,7 @@ export default class extends Phaser.State {
       )
     }
 
-    // if (this.rightKey.isDown) {
-    //   this.game.entities.player.moveRight()
-    // } else if (this.leftKey.isDown) {
-    //   this.game.entities.player.moveLeft()
-    // } else {
-    //   this.game.entities.player.stopMove()
-    // }
-
     if (this.game.entities.player.y > this.game.height) { this.gameOver() }
-
-    Player.resetJump(this.game.entities.player)
   }
 
   render () {
